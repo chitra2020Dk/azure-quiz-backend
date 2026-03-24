@@ -43,7 +43,7 @@ const questions = [
 
 // Default route
 app.get("/", (req, res) => {
-  res.json({ message: "Server is running! Use /question (GET) or /answer (POST)" });
+  res.send("Quiz Backend is running 🚀 Use /question (GET) or /answer (POST)");
 });
 
 let currentQuestionIndex = 0;
@@ -54,12 +54,14 @@ app.get("/question", (req, res) => {
 
 app.post("/answer", (req, res) => {
   const { answer } = req.body;
-
   const currentQuestion = questions[currentQuestionIndex];
   const isCorrect = answer === currentQuestion.answer;
 
-  // Move to next question
+  // Move to next question or reset
   currentQuestionIndex++;
+  if (currentQuestionIndex >= questions.length) {
+    currentQuestionIndex = 0; // reset for next round
+  }
 
   res.json({
     correct: isCorrect,
