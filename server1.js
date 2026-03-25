@@ -2,7 +2,13 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"]
+}));
+
 app.use(express.json());
 
 const questions = [
@@ -69,6 +75,8 @@ app.post("/answer", (req, res) => {
     nextQuestionAvailable: currentQuestionIndex < questions.length,
   });
 });
+
+
 
 const PORT = process.env.PORT || 5000;
 
